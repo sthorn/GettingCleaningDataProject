@@ -1,6 +1,18 @@
 # Getting and Cleaning Data course project
 
-## run\_analysis.R
+### Reproduce the analysis
+
+The script run\_analysis.R should be run from within the 'UCI HAR Dataset' directory
+
+To reproduce the analysis, perform the following:
+
+$ wget https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+$ unzip getdata_projectfiles_UCI\ HAR\ Dataset.zip
+$ cd UCI\ HAR\ Dataset/
+$ cp <path to>/run\_analysis.R .
+$ Rscript run\_analysis.R
+
+### Description of run\_analysis.R
 
 The file run\_analysis.R performs the following steps:
 
@@ -16,6 +28,11 @@ The file run\_analysis.R performs the following steps:
   * Read subject codes from file and add column to data.frame with cbind()
 * Merge test and training datasets with rbind
 * Print warning if any NA values are found
-* Write data.frame to cleandata.txt
 * Create new data.frame with the average of each variable for each subject and activity 
   * Use reshape2's melt() and dcast() functions  
+* Write data.frame to cleandata.txt
+
+Further details can be found in the comments
+
+
+
