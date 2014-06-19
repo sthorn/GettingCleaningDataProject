@@ -1,5 +1,6 @@
-# Remove before submission
-# setwd('DataScience/GettingCleaningData/project/UCI HAR Dataset')
+##
+## Clean UCI Human Activity Recognition Using Smartphones Data Set 
+##
 
 # Read variable names from features.txt - 2nd column contains variable names
 features <- read.table('features.txt')
@@ -45,10 +46,11 @@ data <- rbind( test_data, train_data)
 # rerun on e.g. future versions of the same dataset we would want to be warned
 if(!all(colSums( is.na( data))==0)) { warning( 'Some values in cleaned data are NA')}
 
-# Write data.frame
-write.table( data, 'cleandata.txt')
-
 # Create data set with the average of each variable for each activity and each subject. 
 library(reshape2)
 data_melt <- melt( data, id=c('subject','activity'))
 ave_data <- dcast( data_melt, subject + activity ~ variable, mean)
+
+# Write data.frame
+write.table( ave_data, 'cleandata.txt')
+
