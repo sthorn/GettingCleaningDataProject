@@ -6,18 +6,17 @@ features <- read.table('features.txt')
 # Extract number of features
 nfeatures <- dim(features)[1]
 
+# Select elements where the feature matches 'mean()' or 'std()'
 selection <- grepl("(mean|std)\\(", features$V2)
 features <- features$V2[selection]
 
 # Create vector of classes to select only the mean and standard deviation fields when reading in the main data
 # If classes == 'numeric' the column will be read, if == 'NULL' column will be ignored 
 classes <- rep('NULL', nfeatures)   # start with all NULL
-# Subset classes, select elements where the associated feature (2nd column) matches 'mean()' or 'std()' and set those to 'numeric'
+# Select elements where the associated feature matches 'mean()' or 'std()' and set those to 'numeric'
 classes[ selection ] <- 'numeric' 
-#classes[ grepl("(mean|std)\\(", features$V2) ] <- 'numeric' 
 
-
-# 
+# Function to read one set of data (the dataset as a whole contains a test and train part that are merged)
 clean_data <- function( data_file, activity_file, subject_file) {
   # Read in dataset, selecting only columns matching 'classes' defined above and assign column names. 
   data <- read.table( data_file, colClasses=classes)
@@ -42,18 +41,14 @@ test_data  <- clean_data( 'test/X_test.txt', 'test/y_test.txt', 'test/subject_te
 train_data <- clean_data( 'train/X_train.txt', 'train/y_train.txt', 'train/subject_train.txt')
 data <- rbind( test_data, train_data)
 
-# Check for NA values. Given dataset has none, but if this code gets 
+# Check for NA values. The given dataset has none, but if this code gets 
 # rerun on e.g. future versions of the same dataset we would want to be warned
 if(!all(colSums( is.na( data))==0)) { warning( 'Some values in cleaned data are NA')}
 
 # Write data.frame
 write.table( data, 'cleandata.txt')
 
-
-
 # Create data set with the average of each variable for each activity and each subject. 
 library(reshape2)
 data_melt <- melt( data, id=c('subject','activity'))
 ave_data <- dcast( data_melt, subject + activity ~ variable, mean)
-
-
