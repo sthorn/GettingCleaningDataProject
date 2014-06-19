@@ -1,6 +1,6 @@
 # Getting and Cleaning Data course project
 
-### Reproduce the analysis
+### To reproduce the analysis
 
 The script run\_analysis.R should be run from within the 'UCI HAR Dataset' directory
 
